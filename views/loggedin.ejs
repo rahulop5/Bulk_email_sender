@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .yoyo{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            gap: 20px;
+            height: 100vh;
+        }
+        form{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .sendemails{
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="yoyo">
+        <!-- CSV File Upload Form -->
+        <% if (typeof headers === 'undefined' || !headers.length) { %>
+        <h1>Welcome, <%= name %>!</h1>
+        <h3>Upload CSV file:</h3>
+        <form action="/sendmail" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".csv" required>
+            <button type="submit">Upload CSV</button>
+        </form>
+    <% } else { %>
+        <!-- Show available fields after CSV file upload -->
+        <h3>Available Fields:</h3>
+        <ul>
+          <% headers.forEach(field => { %>
+            <li>{{<%= field %>}}</li>
+          <% }); %>
+        </ul>
+        <!-- Email template form -->
+        <form action="/sendmailtemplate" method="POST">
+            <h3>Write your email template:</h3>
+            <label for="subject">Email Subject (use {{field}} format):</label><br>
+            <input type="text" name="subject" required><br><br>
+            <label for="template">Email Template (use {{field}} format):</label><br>
+            <textarea name="template" rows="10" cols="50" placeholder="Write your email template using the above fields, e.g. 'Hello {{name}}, you scored {{marks}} marks.'" required></textarea>
+            <br>
+            <button type="submit" class="sendemails">Send Emails</button>
+        </form>
+    <% } %>
+    </div>
+    
+</body>
+</html>
