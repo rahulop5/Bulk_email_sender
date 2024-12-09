@@ -161,12 +161,6 @@ app.post("/sendmail", upload.single('file'), async (req, res) => {
     }
 });
 
-app.get('/get-csv-fields', async (req, res) => {
-    const { fields } = await readfile();
-    res.json(fields); // Send fields to frontend for mapping
-});
-
-
 app.post("/sendmailtemplate", async (req, res) => {
     if (req.isAuthenticated()) {
         try {
